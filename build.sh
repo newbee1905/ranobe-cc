@@ -4,7 +4,7 @@ CC=g++
 
 INCLUDES="libs/fmt/include include"
 LIBS="libs/fmt/build"
-LIBS_TO_LINK="fmt"
+LIBS_TO_LINK="fmt curl"
 
 BINARY="ranobe"
 
