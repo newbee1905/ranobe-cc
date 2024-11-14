@@ -36,6 +36,9 @@ public:
 	}
 
 	template <typename U> void destroy(U *p) { p->~U(); }
+
+	template <typename>
+	friend class arena_allocator;
 };
 
 #endif // ARENA_ALLOCATOR_H
