@@ -1,11 +1,12 @@
 #include "curl_utils.hh"
 
+#include <fmt/format.h>
 #include <mutex>
 #include <thread>
-#include <fmt/format.h>
 
 template <typename A>
-std::vector<std::string, A> threaded_get(const std::vector<std::string>& urls, CURLSH* share_handle, const A& allocator) {
+std::vector<std::string, A> threaded_get(const std::vector<std::string> &urls, CURLSH *share_handle,
+                                         const A &allocator) {
 	std::vector<std::string, A> output(urls.size(), allocator);
 	std::vector<std::thread> threads;
 	threads.reserve(urls.size());
@@ -13,7 +14,7 @@ std::vector<std::string, A> threaded_get(const std::vector<std::string>& urls, C
 
 	for (size_t i = 0; i < urls.size(); ++i) {
 		threads.emplace_back([&, i]() {
-			CURL* curl = curl_easy_init();
+			CURL *curl = curl_easy_init();
 			if (!curl) {
 				fmt::print(stderr, "Failed to initialize CURL.\n");
 				return 1;
@@ -31,7 +32,7 @@ std::vector<std::string, A> threaded_get(const std::vector<std::string>& urls, C
 		});
 	}
 
-	for (auto& t : threads) {
+	for (auto &t : threads) {
 		t.join();
 	}
 

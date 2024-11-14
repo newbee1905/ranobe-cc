@@ -2,13 +2,13 @@
 
 #include <fmt/format.h>
 
-size_t __write_callback(char* contents, size_t size, size_t nmemb, void* user_output) {
-	auto* output = static_cast<std::string*>(user_output);
+size_t __write_callback(char *contents, size_t size, size_t nmemb, void *user_output) {
+	auto *output     = static_cast<std::string *>(user_output);
 	size_t totalSize = size * nmemb;
 
 	try {
 		output->append(contents, totalSize);
-	} catch (const std::bad_alloc& e) {
+	} catch (const std::bad_alloc &e) {
 		fmt::print(stderr, "Memory allocation failed: {}\n", e.what());
 		return 0; // Returning 0 will signal CURL to abort the transfer
 	}
@@ -16,7 +16,7 @@ size_t __write_callback(char* contents, size_t size, size_t nmemb, void* user_ou
 	return totalSize;
 }
 
-int get(CURL* curl, const std::string& url, std::string& response) {
+int get(CURL *curl, const std::string &url, std::string &response) {
 	curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
 	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, __write_callback);
 	curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
