@@ -20,19 +20,22 @@ public:
 		using other = arena_allocator<U>;
 	};
 
-	explicit arena_allocator(arena &a) noexcept;
+	explicit arena_allocator(arena &a) noexcept : arena_(&a){};
 
-	template <typename U> arena_allocator(const arena_allocator<U> &other) noexcept;
+	template <typename U>
+	arena_allocator(const arena_allocator<U> &other) noexcept : arena_(other.arena_){};
 
-	pointer allocate(size_type n);
-	void deallocate(pointer, size_type) noexcept;
+	pointer allocate(size_type n) { return static_cast<pointer>(arena_->allocate(n * sizeof(T))); }
 
-	template <typename U, typename... Args> void construct(U *p, Args &&...args);
+	void deallocate(pointer, size_type) noexcept {
+		// No-op - memory is freed when arena is destroyed
+	}
 
-	template <typename U> void destroy(U *p);
+	template <typename U, typename... Args> void construct(U *p, Args &&...args) {
+		new (p) U(std::forward<Args>(args)...);
+	}
+
+	template <typename U> void destroy(U *p) { p->~U(); }
 };
-
-// Template implementations need to be included in the header
-#include "arena_allocator.tt"
 
 #endif // ARENA_ALLOCATOR_H

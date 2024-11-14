@@ -2,7 +2,7 @@
 
 CC=g++
 
-INCLUDES="libs/fmt/include include"
+INCLUDES="libs/fmt/include include src"
 LIBS="libs/fmt/build"
 LIBS_TO_LINK="fmt curl"
 
