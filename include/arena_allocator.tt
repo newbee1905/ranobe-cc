@@ -1,0 +1,32 @@
+#include "arena_allocator.hh"
+
+template<typename T>
+arena_allocator<T>::arena_allocator(arena& a) noexcept : arena_(&a) {}
+
+template<typename T>
+template<typename U>
+arena_allocator<T>::arena_allocator(const arena_allocator<U>& other) noexcept : arena_(other.arena_) {}
+
+template<typename T>
+typename arena_allocator<T>::pointer arena_allocator<T>::allocate(size_type n) {
+  return static_cast<pointer>(arena_->allocate(n * sizeof(T)));
+}
+
+template<typename T>
+void arena_allocator<T>::deallocate(pointer, size_type) noexcept {
+  // No-op - memory is freed when arena is destroyed
+}
+
+template<typename T>
+template<typename U, typename... Args>
+void arena_allocator<T>::construct(U* p, Args&&... args) {
+  new(p) U(std::forward<Args>(args)...);
+}
+
+template<typename T>
+template<typename U>
+void arena_allocator<T>::destroy(U* p) {
+  p->~U();
+}
+
+// vim: set ft=cpp:
