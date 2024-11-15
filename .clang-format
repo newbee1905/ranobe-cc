@@ -7,5 +7,8 @@ ColumnLimit: 100
 AlignArrayOfStructures: Right
 AlignConsecutiveAssignments: Consecutive
 AlignConsecutiveMacros: AcrossEmptyLines
+# BreakTemplateDeclarations: Yes
+AlwaysBreakTemplateDeclarations: true
+AllowShortFunctionsOnASingleLine: false
 ---
 Language: Cpp
