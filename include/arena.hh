@@ -14,7 +14,8 @@ struct __arena_memory_block {
 	bool is_stack;
 
 	__arena_memory_block(uint8_t *mem, size_t block_size, bool stack = false)
-			: memory(mem), size(block_size), used(0), is_stack(stack) {}
+			: memory(mem), size(block_size), used(0), is_stack(stack) {
+	}
 };
 
 class arena {
@@ -41,7 +42,8 @@ public:
 	arena &operator=(const arena &) = delete;
 
 	void *allocate(size_t size);
-	template <typename T, typename... Args> T *construct(Args &&...args) {
+	template <typename T, typename... Args>
+	T *construct(Args &&...args) {
 		void *ptr = allocate(sizeof(T));
 		return new (ptr) T(std::forward<Args>(args)...);
 	}

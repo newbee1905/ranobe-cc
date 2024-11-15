@@ -1,8 +1,9 @@
 #!/bin/bash
 
-CC=g++
+# CC=g++
+CC=clang++
 
-INCLUDES="libs/fmt/include include src"
+INCLUDES="libs/fmt/include include"
 LIBS="libs/fmt/build"
 LIBS_TO_LINK="fmt curl"
 

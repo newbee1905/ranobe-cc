@@ -70,12 +70,22 @@ void arena::clear() {
 	wasted_space_    = 0;
 }
 
-size_t arena::total_allocated() const { return total_allocated_; }
+size_t arena::total_allocated() const {
+	return total_allocated_;
+}
 
-size_t arena::wasted_space() const { return wasted_space_; }
+size_t arena::wasted_space() const {
+	return wasted_space_;
+}
 
-size_t arena::num_blocks() const { return blocks_.size(); }
+size_t arena::num_blocks() const {
+	return blocks_.size();
+}
 
-size_t arena::stack_memory_used() const { return blocks_.empty() ? 0 : blocks_[0].used; }
+size_t arena::stack_memory_used() const {
+	return blocks_.empty() ? 0 : blocks_[0].used;
+}
 
-arena::~arena() { clear(); }
+arena::~arena() {
+	clear();
+}

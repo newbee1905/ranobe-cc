@@ -6,6 +6,11 @@
 - g++
 - Any POSIX Shell
 
+## Dev Dependencies
+
+- git
+- clang-format
+
 ## TODO
 
 - [ ] Parse Lightnovel
