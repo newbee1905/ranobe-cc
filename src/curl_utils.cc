@@ -34,3 +34,36 @@ int get(CURL *curl, const std::string &url, std::string &response) {
 
 	return 1;
 }
+
+std::vector<std::string> threaded_get(const std::vector<std::string> &urls, CURLSH *share_handle) {
+	std::vector<std::string> output(urls.size());
+	std::vector<std::thread> threads;
+	threads.reserve(urls.size());
+	std::mutex output_mutex;
+
+	for (size_t i = 0; i < urls.size(); ++i) {
+		threads.emplace_back([&, i]() {
+			CURL *curl = curl_easy_init();
+			if (!curl) {
+				fmt::print(stderr, "Failed to initialize CURL.\n");
+				return 1;
+			}
+
+			curl_easy_setopt(curl, CURLOPT_SHARE, share_handle);
+			std::string response;
+			if (get(curl, urls[i], response)) {
+				std::lock_guard<std::mutex> lock(output_mutex);
+				output[i] = std::move(response);
+			}
+			curl_easy_cleanup(curl);
+
+			return 0;
+		});
+	}
+
+	for (auto &t : threads) {
+		t.join();
+	}
+
+	return output;
+}
