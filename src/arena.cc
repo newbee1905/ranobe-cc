@@ -1,5 +1,8 @@
 #include "arena.hh"
+
 #include <algorithm>
+
+thread_local arena *arena::cur_arena_ = nullptr;
 
 size_t arena::align_up(size_t n, size_t alignment) {
 	return (n + alignment - 1) & ~(alignment - 1);
@@ -18,7 +21,6 @@ __arena_memory_block &arena::allocate_new_block(size_t min_size) {
 
 arena::arena(size_t default_block_size)
 		: default_block_size_(default_block_size), total_allocated_(0), wasted_space_(0) {
-
 	blocks_.emplace_back(stack_memory_.data(), STACK_SIZE, true);
 	heap_blocks_.reserve(4);
 }

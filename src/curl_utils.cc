@@ -10,7 +10,7 @@ size_t __write_callback(char *contents, size_t size, size_t nmemb, void *user_ou
 		output->append(contents, totalSize);
 	} catch (const std::bad_alloc &e) {
 		fmt::print(stderr, "Memory allocation failed: {}\n", e.what());
-		return 0; // Returning 0 will signal CURL to abort the transfer
+		return 0;  // Returning 0 will signal CURL to abort the transfer
 	}
 
 	return totalSize;

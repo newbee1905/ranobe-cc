@@ -25,8 +25,8 @@ for lib in $LIBS_TO_LINK; do
 	LINK_FLAGS="$LINK_FLAGS -l$lib"
 done
 
-echo "$CC $INCLUDE_FLAGS -o $BINARY src/*.cc $LIBRARY_FLAGS $LINK_FLAGS $@"
-$CC $INCLUDE_FLAGS -o $BINARY src/*.cc $LIBRARY_FLAGS $LINK_FLAGS $@
+echo "$CC $INCLUDE_FLAGS -o $BINARY src/*.cc $LIBRARY_FLAGS $LINK_FLAGS $@" -DUSE_ARENA
+$CC $INCLUDE_FLAGS -o $BINARY src/*.cc $LIBRARY_FLAGS $LINK_FLAGS $@ -DUSE_ARENA
 
 if [ $? -eq 0 ]; then
 	echo "Build successful. Output file: $BINARY"

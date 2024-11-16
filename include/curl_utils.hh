@@ -3,10 +3,27 @@
 
 #include <curl/curl.h>
 #include <fmt/format.h>
+
 #include <mutex>
 #include <string>
 #include <thread>
 #include <vector>
+
+// template <typename A = std::allocator<char>>
+// size_t __write_callback(char *contents, size_t size, size_t nmemb, void *user_output) {
+//   using __string_t = std::basic_string<char, std::char_traits<char>, A>;
+//   auto *output = static_cast<__string_t *>(user_output);
+//   size_t total_size = size * nmemb;
+//
+//   try {
+//     output->append(contents, total_size);
+//   } catch (const std::bad_alloc &e) {
+//     fmt::print(stderr, "Memory allocation failed: {}\n", e.what());
+//     return 0;
+//   }
+//
+//   return total_size;
+// }
 
 size_t __write_callback(char *contents, size_t size, size_t nmemb, void *user_output);
 
@@ -47,4 +64,4 @@ std::vector<std::string, A> threaded_get(const std::vector<std::string> &urls, C
 	return output;
 }
 
-#endif //__CURL_HH__
+#endif  //__CURL_HH__

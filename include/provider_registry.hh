@@ -1,13 +1,14 @@
 #ifndef __PROVIDER_REGISTRY_HH__
 #define __PROVIDER_REGISTRY_HH__
 
-#include "provider.hh"
 #include <functional>
 #include <map>
 
+#include "provider.hh"
+
 template <typename A = std::allocator<char>>
 class ranobe_provider_registry {
-private:
+ private:
 	using provider_t = ranobe_provider<A>;
 	using __string_t = typename provider_types<A>::__string_t;
 
@@ -19,7 +20,7 @@ private:
 			typename std::allocator_traits<A>::template rebind_alloc<std::string_view>;
 	std::vector<std::string_view, __string_view_allocator_t> provider_names;
 
-public:
+ public:
 	explicit ranobe_provider_registry(const A &alloc) : providers(alloc), provider_names(alloc) {
 	}
 
@@ -30,8 +31,8 @@ public:
 		}
 	}
 
-	std::optional<provider_t>
-	find_provider(const typename provider_types<A>::__string_t &name) const {
+	std::optional<provider_t> find_provider(
+			const typename provider_types<A>::__string_t &name) const {
 		auto it = providers.find(name);
 		if (it != providers.end()) {
 			return it->second();
@@ -44,4 +45,4 @@ public:
 	}
 };
 
-#endif // __PROVIDER_REGISTRY_HH__
+#endif  // __PROVIDER_REGISTRY_HH__

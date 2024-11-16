@@ -1,10 +1,11 @@
 #ifndef __ARENA_HH__
 #define __ARENA_HH__
 
-#include <array>
-#include <memory>
 #include <stddef.h>
 #include <stdint.h>
+
+#include <array>
+#include <memory>
 #include <vector>
 
 struct __arena_memory_block {
@@ -19,8 +20,8 @@ struct __arena_memory_block {
 };
 
 class arena {
-private:
-	static constexpr size_t STACK_SIZE = 4 * 1024; // 4KB stack memory
+ private:
+	static constexpr size_t STACK_SIZE = 4 * 1024;  // 4KB stack memory
 	static constexpr size_t ALIGNMENT  = alignof(std::max_align_t);
 
 	std::array<uint8_t, STACK_SIZE> stack_memory_;
@@ -31,10 +32,12 @@ private:
 	size_t total_allocated_;
 	size_t wasted_space_;
 
+	static thread_local arena *cur_arena_;
+
 	static size_t align_up(size_t n, size_t alignment = ALIGNMENT);
 	__arena_memory_block &allocate_new_block(size_t min_size);
 
-public:
+ public:
 	explicit arena(size_t default_block_size = 4096);
 
 	// Disabling copying and assignment
@@ -42,6 +45,24 @@ public:
 	arena &operator=(const arena &) = delete;
 
 	void *allocate(size_t size);
+
+	class scope_guard {
+	 private:
+		arena *old_arena_;
+
+	 public:
+		explicit scope_guard(arena &a) : old_arena_(cur_arena_) {
+			cur_arena_ = &a;
+		}
+		~scope_guard() {
+			cur_arena_ = old_arena_;
+		}
+	};
+
+	static arena *current() {
+		return cur_arena_;
+	}
+
 	template <typename T, typename... Args>
 	T *construct(Args &&...args) {
 		void *ptr = allocate(sizeof(T));
@@ -59,4 +80,4 @@ public:
 	~arena();
 };
 
-#endif // __ARENA__HH__
+#endif  // __ARENA__HH__

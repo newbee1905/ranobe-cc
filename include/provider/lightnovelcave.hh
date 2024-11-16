@@ -15,8 +15,8 @@ typename provider_types<A>::__vector_t lightnovelcave_get_latest_list(const A &a
 }
 
 template <typename A = std::allocator<char>>
-typename provider_types<A>::__vector_t
-lightnovelcave_search_novels(const typename provider_types<A>::__string_t &query, const A &alloc) {
+typename provider_types<A>::__vector_t lightnovelcave_search_novels(
+		const typename provider_types<A>::__string_t &query, const A &alloc) {
 	using types      = provider_types<A>;
 	using __string_t = typename types::__string_t;
 	using __vector_t = typename types::__vector_t;
@@ -26,9 +26,8 @@ lightnovelcave_search_novels(const typename provider_types<A>::__string_t &query
 }
 
 template <typename A = std::allocator<char>>
-typename provider_types<A>::__vector_t
-lightnovelcave_get_chapter_list(const typename provider_types<A>::__string_t &novel,
-                                const A &alloc) {
+typename provider_types<A>::__vector_t lightnovelcave_get_chapter_list(
+		const typename provider_types<A>::__string_t &novel, const A &alloc) {
 	using types      = provider_types<A>;
 	using __string_t = typename types::__string_t;
 	using __vector_t = typename types::__vector_t;
@@ -39,9 +38,8 @@ lightnovelcave_get_chapter_list(const typename provider_types<A>::__string_t &no
 }
 
 template <typename A = std::allocator<char>>
-typename provider_types<A>::__string_t
-lightnovelcave_get_chapter_html(const typename provider_types<A>::__string_t &chapter,
-                                const A &alloc) {
+typename provider_types<A>::__string_t lightnovelcave_get_chapter_html(
+		const typename provider_types<A>::__string_t &chapter, const A &alloc) {
 	using types      = provider_types<A>;
 	using __string_t = typename types::__string_t;
 
@@ -49,9 +47,8 @@ lightnovelcave_get_chapter_html(const typename provider_types<A>::__string_t &ch
 }
 
 template <typename A = std::allocator<char>>
-typename provider_types<A>::__string_t
-lightnovelcave_parse_html_to_markdown(const typename provider_types<A>::__string_t &html,
-                                      const A &alloc) {
+typename provider_types<A>::__string_t lightnovelcave_parse_html_to_markdown(
+		const typename provider_types<A>::__string_t &html, const A &alloc) {
 	using types      = provider_types<A>;
 	using __string_t = typename types::__string_t;
 
@@ -80,4 +77,4 @@ ranobe_provider<A> create_lightnovelcave_provider(const A &alloc) {
 			});
 }
 
-#endif // __PROVIDER_LIGHTNOVELCAVE_HH__
+#endif  // __PROVIDER_LIGHTNOVELCAVE_HH__

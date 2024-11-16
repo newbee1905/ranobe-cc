@@ -1,15 +1,18 @@
 #ifndef __ARENA_ALLOCATOR_HH__
 #define __ARENA_ALLOCATOR_HH__
 
-#include "arena.hh"
 #include <memory>
 #include <stdexcept>
+
+#include "arena.hh"
+
+extern arena global_arena;
 
 template <typename T>
 class arena_allocator {
 	arena *arena_;
 
-public:
+ public:
 	using value_type      = T;
 	using pointer         = T *;
 	using const_pointer   = const T *;
@@ -23,8 +26,9 @@ public:
 		using other = arena_allocator<U>;
 	};
 
-	arena_allocator() noexcept : arena_(nullptr) {
+	arena_allocator() noexcept : arena_(&global_arena) {
 	}
+
 	explicit arena_allocator(arena &a) noexcept : arena_(&a){};
 
 	template <typename U>
@@ -64,4 +68,4 @@ public:
 	}
 };
 
-#endif // __ARENA_ALLOCATOR_HH__
+#endif  // __ARENA_ALLOCATOR_HH__
